@@ -1,6 +1,6 @@
 {
   "name": "dynamic-import-assets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dynamic Import Assets like JavaScript and CSS.",
   "keywords": [
     "browser",
