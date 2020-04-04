@@ -2,6 +2,12 @@
 
 Dynamic Import Assets like JavaScript and CSS.
 
+## Feature
+
+- Dynamic load JavaScript and CSS from URL
+- Support Promises
+- Work with ES modules registry like [UNPKG](https://unpkg.com/) and [Pika CDN](https://www.pika.dev/cdn)
+
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
@@ -10,19 +16,35 @@ Install with [npm](https://www.npmjs.com/):
 
 ## Usage
 
-For example, you want to load <https://toast.evila.me/>'s js and css:
+For example, you want to load <https://toast.evila.me/>'s js and css using [UNPKG](https://unpkg.com/), do following:
 
 ```js
 (async function main(){
-    const dynamicImportAssets = await import("https://cdn.pika.dev/dynamic-import-assets@^1.0.0");
+    const { dynamicImportAssets } = await import("https://unpkg.com/dynamic-import-assets@^1.0.0?module");
+    const { createToast } = await import("https://unpkg.com/@evillt/toast@1.1.3?module");
+    // inject <link rel="stylesheet">
+    await dynamicImportAssets("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" });
+    // use toast after loaded 
+    createToast("Hello world");
+})();
+```
+
+Also support JavaScript as script loading:
+
+```js
+(async function main(){
+    const { dynamicImportAssets } = await import("https://unpkg.com/dynamic-import-assets@^1.0.0?module");
     await Promise.all([
+        // inject <link rel="stylesheet">
         dynamicImportAssets("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" }),
+        // inject <script>
         dynamicImportAssets("https://unpkg.com/@evillt/toast@1.1.3", { type: "js" })
     ]);
     // use toast after loaded 
     toast.createToast("Hello world");
-})()
+})();
 ```
+
 
 ## Changelog
 
