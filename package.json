@@ -1,0 +1,95 @@
+{
+  "name": "dynamic-import-assets",
+  "version": "1.0.0",
+  "description": "Dynamic Import Assets like JavaScript and CSS.",
+  "keywords": [
+    "browser",
+    "import",
+    "css",
+    "js",
+    "loader"
+  ],
+  "homepage": "https://github.com/azu/dynamic-import-assets",
+  "bugs": {
+    "url": "https://github.com/azu/dynamic-import-assets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azu/dynamic-import-assets.git"
+  },
+  "license": "MIT",
+  "author": "azu",
+  "esnext": "dist-src/index.js",
+  "main": "dist-node/index.js",
+  "module": "dist-web/index.js",
+  "types": "dist-types/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist-*/",
+    "assets/",
+    "bin/"
+  ],
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-standard-pkg",
+        {
+          "exclude": [
+            "__tests__/**/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node"
+      ],
+      [
+        "@pika/plugin-build-web"
+      ],
+      [
+        "@pika/plugin-build-types"
+      ]
+    ]
+  },
+  "scripts": {
+    "build": "pika-pack",
+    "clean": "rimraf lib/",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
+    "prepublish": "npm run --if-present build",
+    "test": "mocha \"test/**/*.ts\"",
+    "watch": "tsc -p . --watch"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": false,
+    "tabWidth": 4
+  },
+  "devDependencies": {
+    "@pika/pack": "^0.5.0",
+    "@pika/plugin-build-node": "^0.9.2",
+    "@pika/plugin-build-types": "^0.9.2",
+    "@pika/plugin-build-web": "^0.9.2",
+    "@pika/plugin-standard-pkg": "^0.9.2",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.11.0",
+    "cross-env": "^7.0.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.1",
+    "mocha": "^7.1.1",
+    "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.8.1",
+    "ts-node-test-register": "^8.0.1",
+    "typescript": "^3.8.3"
+  }
+}
