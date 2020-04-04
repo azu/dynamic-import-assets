@@ -10,7 +10,19 @@ Install with [npm](https://www.npmjs.com/):
 
 ## Usage
 
-- [ ] Write usage instructions
+For example, you want to load <https://toast.evila.me/>'s js and css:
+
+```js
+(async function main(){
+    const dynamicImportAssets = await import("https://cdn.pika.dev/dynamic-import-assets@^1.0.0");
+    await Promise.all([
+        dynamicImportAssets("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" }),
+        dynamicImportAssets("https://unpkg.com/@evillt/toast@1.1.3", { type: "js" })
+    ]);
+    // use toast after loaded 
+    toast.createToast("Hello world");
+})()
+```
 
 ## Changelog
 

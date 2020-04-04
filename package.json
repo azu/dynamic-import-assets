@@ -52,6 +52,7 @@
   },
   "scripts": {
     "build": "pika-pack",
+    "build:ts": "tsc -p .",
     "clean": "rimraf lib/",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "prepublish": "npm run --if-present build",
