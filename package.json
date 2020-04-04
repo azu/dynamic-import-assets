@@ -19,14 +19,14 @@
   },
   "license": "MIT",
   "author": "azu",
+  "source": "src/index.ts",
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.m.js",
-  "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "files": [
-    "dist-*/",
+    "dist/",
     "bin/"
   ],
   "scripts": {
