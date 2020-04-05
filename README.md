@@ -14,16 +14,31 @@ Install with [npm](https://www.npmjs.com/):
 
     npm install dynamic-import-assets
 
+
 ## Usage
+
+Provide these APIs
+
+- `dynamicImportScript`: Load JavaScript Script and resolve with loaded `<script>`
+- `dynamicImportCSS`: Load CSS Script and resolve with `<link>`
+
+```ts
+export declare type Loader<T extends HTMLElement> = (url: string) => Promise<T>;
+export declare function createDynamicImportAssetsLoader<T extends HTMLElement>(loader: Loader<T>): (url: string) => Promise<T>;
+export declare const dynamicImportScript: (url: string) => Promise<HTMLScriptElement>;
+export declare const dynamicImportCSS: (url: string) => Promise<HTMLLinkElement>;
+```
+
+## Examples
 
 For example, you want to load <https://toast.evila.me/>'s js and css using [UNPKG](https://unpkg.com/), do following:
 
 ```js
 (async function main(){
-    const { dynamicImportAssets } = await import("https://unpkg.com/dynamic-import-assets@^1.0.0?module");
+    const { dynamicImportCSS } = await import("https://unpkg.com/dynamic-import-assets@^1.0.0?module");
     const { createToast } = await import("https://unpkg.com/@evillt/toast@1.1.3?module");
     // inject <link rel="stylesheet">
-    await dynamicImportAssets("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" });
+    await dynamicImportCSS("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" });
     // use toast after loaded 
     createToast("Hello world");
 })();
@@ -33,12 +48,12 @@ Also support JavaScript as script loading:
 
 ```js
 (async function main(){
-    const { dynamicImportAssets } = await import("https://unpkg.com/dynamic-import-assets@^1.0.0?module");
+    const { dynamicImportJS, dynamicImportCSS } = await import("https://unpkg.com/dynamic-import-assets@^1.0.0?module");
     await Promise.all([
         // inject <link rel="stylesheet">
-        dynamicImportAssets("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" }),
+        dynamicImportCSS("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" }),
         // inject <script>
-        dynamicImportAssets("https://unpkg.com/@evillt/toast@1.1.3", { type: "js" })
+        dynamicImportJS("https://unpkg.com/@evillt/toast@1.1.3", { type: "js" })
     ]);
     // use toast after loaded 
     toast.createToast("Hello world");

@@ -1,7 +1,4 @@
-export type dynamicImportAssetsOptions = {
-    type: "js" | "css"
-}
-const loadJs = (url: string): Promise<HTMLElement> => {
+const loadJs = (url: string): Promise<HTMLScriptElement> => {
     const script = document.createElement("script");
     script.src = url;
     document.querySelector("head")!.appendChild(script);
@@ -14,7 +11,8 @@ const loadJs = (url: string): Promise<HTMLElement> => {
         });
     });
 };
-const loadCSS = (url: string): Promise<HTMLElement> => {
+
+const loadCSS = (url: string): Promise<HTMLLinkElement> => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = url;
@@ -29,25 +27,21 @@ const loadCSS = (url: string): Promise<HTMLElement> => {
     });
 };
 
-const load = (url: string, type: dynamicImportAssetsOptions["type"]) => {
-    if (type === "js") {
-        return loadJs(url);
-    } else if (type === "css") {
-        return loadCSS(url);
-    }
-    throw new Error("Can not load unknown type" + type + ", url" + url);
-};
+export type Loader<T extends HTMLElement> = (url: string) => Promise<T>;
 
-export const createDynamicImportAssetsLoader = (): (url: string, options: dynamicImportAssetsOptions) => Promise<void> => {
-    const cacheSet = new Set<string>();
-    return async (url: string, options: dynamicImportAssetsOptions) => {
-        if (cacheSet.has(url)) {
-            return;
+export function createDynamicImportAssetsLoader<T extends HTMLElement>(loader: Loader<T>): (url: string) => Promise<T> {
+    const cacheMap = new Map<string, T>();
+    return (url: string): Promise<T> => {
+        const cachedElement = cacheMap.get(url);
+        if (cachedElement) {
+            return Promise.resolve(cachedElement);
         }
-        return load(url, options.type).then(() => {
-            cacheSet.add(url);
+        return loader(url).then((element) => {
+            cacheMap.set(url, element);
+            return element;
         });
     };
-};
+}
 
-export const dynamicImportAssets = createDynamicImportAssetsLoader();
+export const dynamicImportJS = createDynamicImportAssetsLoader((url) => loadJs(url));
+export const dynamicImportCSS = createDynamicImportAssetsLoader((url) => loadCSS(url));
