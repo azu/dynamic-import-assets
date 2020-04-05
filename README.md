@@ -19,13 +19,13 @@ Install with [npm](https://www.npmjs.com/):
 
 Provide these APIs
 
-- `dynamicImportScript`: Load JavaScript Script and resolve with loaded `<script>`
+- `dynamicImportJS`: Load JavaScript Script and resolve with loaded `<script>`
 - `dynamicImportCSS`: Load CSS Script and resolve with `<link>`
 
 ```ts
 export declare type Loader<T extends HTMLElement> = (url: string) => Promise<T>;
 export declare function createDynamicImportAssetsLoader<T extends HTMLElement>(loader: Loader<T>): (url: string) => Promise<T>;
-export declare const dynamicImportScript: (url: string) => Promise<HTMLScriptElement>;
+export declare const dynamicImportJS: (url: string) => Promise<HTMLScriptElement>;
 export declare const dynamicImportCSS: (url: string) => Promise<HTMLLinkElement>;
 ```
 
