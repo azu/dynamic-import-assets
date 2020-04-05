@@ -38,7 +38,7 @@ For example, you want to load <https://toast.evila.me/>'s js and css using [UNPK
     const { dynamicImportCSS } = await import("https://unpkg.com/dynamic-import-assets@^1.0.0?module");
     const { createToast } = await import("https://unpkg.com/@evillt/toast@1.1.3?module");
     // inject <link rel="stylesheet">
-    await dynamicImportCSS("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" });
+    await dynamicImportCSS("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css");
     // use toast after loaded 
     createToast("Hello world");
 })();
@@ -51,9 +51,9 @@ Also support JavaScript as script loading:
     const { dynamicImportJS, dynamicImportCSS } = await import("https://unpkg.com/dynamic-import-assets@^1.0.0?module");
     await Promise.all([
         // inject <link rel="stylesheet">
-        dynamicImportCSS("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css", { type: "css" }),
+        dynamicImportCSS("https://unpkg.com/@evillt/toast@1.1.3/dist/toast.min.css"),
         // inject <script>
-        dynamicImportJS("https://unpkg.com/@evillt/toast@1.1.3", { type: "js" })
+        dynamicImportJS("https://unpkg.com/@evillt/toast@1.1.3")
     ]);
     // use toast after loaded 
     toast.createToast("Hello world");
